@@ -67,8 +67,10 @@ public class Grammar {
 
                 for (String s : followOfLHS) {
                     if (parsingTable.get(p.getNonterminal()).containsKey(s)) {
-                        throw new RuntimeException(" NOT LL1 GRAMMAR------ CONFLICT column " + s + " contains : " +
-                        parsingTable.get(p.getNonterminal()).get(s));
+                        throw new RuntimeException(" NOT LL1 GRAMMAR------ CONFLICT line "+ p.getNonterminal()
+                            + "   column " + s + " " +
+                            "contains : " +
+                        parsingTable.get(p.getNonterminal()).get(s) + " what rule we want  :"+ p.getRuleNumber());
                     }
                     parsingTable.get(p.getNonterminal()).put(s, p.getRuleNumber());
                 }
@@ -81,7 +83,7 @@ public class Grammar {
             if (!s.equals(EPSILON)) {
                 if (parsingTable.get(p.getNonterminal()).containsKey(s)) {
                     throw new RuntimeException(" NOT LL1 GRAMMAR------ CONFLICT column " + s + " contains : " +
-                        parsingTable.get(p.getNonterminal()).get(s));
+                        parsingTable.get(p.getNonterminal()).get(s) + " what rule we want  :"+ p.getRuleNumber());
                 }
                 parsingTable.get(p.getNonterminal()).put(s, p.getRuleNumber());
             }
@@ -90,6 +92,12 @@ public class Grammar {
 
     private List<String> getFirstForElements(List<String> elements) {
         Set<String> firstList = new LinkedHashSet<>();
+
+        if(isTerminal(elements.get(0))){
+            firstList.add(elements.get(0));
+            return firstList.stream().collect(Collectors.toList());
+        }
+
         for (String e : elements) {
             if (isTerminal(e)) {
                 firstList.add(e);
