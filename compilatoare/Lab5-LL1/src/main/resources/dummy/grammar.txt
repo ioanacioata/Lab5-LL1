@@ -1,5 +1,0 @@
-S -> B C
-B -> b
-B -> epsilon
-C -> c
-C -> epsilon
